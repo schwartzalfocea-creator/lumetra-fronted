@@ -3,9 +3,15 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+// 🔥 TIPADO CORRECTO
+type User = {
+  id: number;
+  email: string;
+};
+
 export default function Dashboard() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,8 +33,11 @@ export default function Dashboard() {
         } else {
           setUser(data.user);
         }
+      })
+      .catch(() => {
+        router.push("/");
       });
-  }, []);
+  }, [router]);
 
   return (
     <div style={{ padding: 40 }}>
